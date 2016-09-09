@@ -1,0 +1,96 @@
+<!doctype html>
+<html ng-app="calcApp">
+  <head>
+		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css" />
+		<style>
+			.keys:not(:last-of-type) {
+					margin-bottom: 4px;
+			}
+			.calculator button {
+					width: 25px;
+			}
+			.calculator {
+					border: 1px solid #D6D6D6;
+					padding: 10px;
+					width: 134px;
+					display: inline-block;
+					background-color: #F5F5F5;
+			}
+			.screen input {
+					border: 1px solid #d9d9d9;
+					border-top: 1px solid #c0c0c0;
+					color: #333;
+					padding: 5px;
+					margin-bottom: 5px;
+					outline: none;
+					width: 100%;
+			}
+
+			/* Dont add the CSS below */
+			.demo {
+					text-align: center;
+					margin-top: 50px;
+			}
+		</style>
+    <script src="./bower_components/angular/angular.js"></script>
+		<script>
+			angular.module('calcApp', [])
+					.controller('main', function($scope, calcServ){
+						$scope.resultado = '';
+						$scope.pad = ['789÷', '456×', '123-', '0C=+'];
+
+						$scope.evaluar = function(n){
+							$scope.resultado = calcServ.evaluar($scope.resultado, n);
+						}
+
+					}).factory('calcServ', function(){
+						return {
+							evaluar: function(resultado, n){
+								if(n == 'C') {
+									resultado = '';
+								} else if(n !== '='){
+									resultado += n;
+								} else {
+									resultado = eval(resultado);
+								}
+								return resultado;
+							}
+						};
+
+					});
+		</script>
+  </head>
+  <body>
+		<table>
+			<tr>
+				<td><label for="usuario">Usuario:</label></td>
+				<td><input type="text" id="usuario" /> </td>
+			</tr>
+		</table>
+
+
+    <div ng-controller="main">
+			<calculadora></calculadora>
+
+			<div class="demo">
+
+				<div class="calculator">
+					<div class="screen">
+						<input type="text" ng-model="resultado" />
+					</div>
+					<div class="keypad">
+						<div class="keys" ng-repeat="botones in pad">
+							<span ng-repeat="n in botones">
+								<button type="button"
+										ng-click="evaluar(n)"
+										class="btn btn-default btn-xs">{{n}}</button>
+							</span>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+    </div>
+  </body>
+</html>
