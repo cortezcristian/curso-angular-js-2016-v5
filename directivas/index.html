@@ -1,0 +1,74 @@
+<!doctype html>
+<html ng-app="appcalc">
+  <head>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script>
+      angular.module('appcalc', [])
+             .controller('principal', function($scope, MiServ, LS){
+               $scope.yourName = 'Hola a todos';
+
+               // Caso de uso
+               LS.set("clave", { alfa: 5 });
+               var a = LS.get("clave")
+               console.log('->', a, typeof a, a.alfa); // -> { alfa: 5 }
+
+             })
+             .factory('LS', function(){
+               return {
+                get: function(key){
+                  var res = localStorage.getItem(key);
+                  return JSON.parse(res);
+                },
+                set: function(key, value){
+                  var val = JSON.stringify(value);
+                  return localStorage.setItem(key, val);
+                },
+                clean: function(){
+                  return localStorage.clear();
+                }
+               }
+             })
+             .factory('MiServ', function(){
+               return {
+                saludar: function(){
+                  alert("hola");
+                }
+               }
+             })
+             .directive('calculadora', function(MiServ, LS){
+
+                return {
+                  restrict: 'AEC',
+                  templateUrl: './calculadora.html',
+                  scope: true,
+                  link: function(scope, elem, attrs){
+                    scope.resultado = '';
+                    scope.pad = ['789/', '456*', '123-', '0C=+'];
+                    console.log("Linkeada");
+                    scope.press = function(n){
+                      console.log(n);
+                      if(n == 'C') {
+                        MiServ.saludar();
+                        LS.clean();
+                        scope.resultado = '';
+                      } else if(n !== '='){
+                        scope.resultado += n;
+                      } else {
+                        LS.set('ultimaop', scope.resultado);
+                        scope.resultado = eval(scope.resultado);
+                      }
+                    };
+                  }
+                };
+
+             });
+    </script>
+  </head>
+  <body>
+    <div ng-controller="principal">
+      <div calculadora>Hola mundo</div>
+      asdklfalsjkdfj
+      <calculadora></calculadora>
+    </div>
+  </body>
+</html>
