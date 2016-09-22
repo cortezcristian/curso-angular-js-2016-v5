@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <title>Repaso Directivas y Servicios</title>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script>
+      angular.module("myApp", [])
+        .controller("MainCtrl", function($scope, DemoServ){
+          $scope.valor = 0;
+          $scope.calcIva = function(){
+            $scope.resultado = DemoServ.calcularIva($scope.valor);
+          };
+
+        })
+        .factory("DemoServ", function(){
+          return {
+            calcularIva: function(monto){
+              return monto*0.21;
+            }
+          };
+        })
+    </script>
+  </head>
+  <body>
+    <form ng-controller="MainCtrl">
+      <div>IVA: {{resultado}}</div>
+      <input type="number" placeholder="Monto" ng-model="valor" />
+      <button ng-click="calcIva()">Calcular IVA</button>
+    </form>
+
+  </body>
+</html>

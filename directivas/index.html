@@ -4,13 +4,23 @@
     <script src="./bower_components/angular/angular.js"></script>
     <script>
       angular.module('appcalc', [])
-             .controller('principal', function($scope, MiServ, LS){
+             .controller('principal', function($scope, MiServ, LS, $timeout){
                $scope.yourName = 'Hola a todos';
+
+               $timeout(function(){
+                $scope.yourName = ':D';
+               }, 1000);
+
+               $scope.$watch('yourName', function(newVal, oldVal){
+                console.log("cambio", newVal, oldVal);
+               });
 
                // Caso de uso
                LS.set("clave", { alfa: 5 });
                var a = LS.get("clave")
                console.log('->', a, typeof a, a.alfa); // -> { alfa: 5 }
+
+               $scope.historial = LS.get("operaciones") || [];
 
              })
              .factory('LS', function(){
@@ -54,7 +64,11 @@
                       } else if(n !== '='){
                         scope.resultado += n;
                       } else {
-                        LS.set('ultimaop', scope.resultado);
+
+                        var ops = LS.get('operaciones') || [];
+                        ops.push(scope.resultado);
+                        LS.set('operaciones', ops);
+
                         scope.resultado = eval(scope.resultado);
                       }
                     };
@@ -66,9 +80,13 @@
   </head>
   <body>
     <div ng-controller="principal">
+      {{yourName}}
       <div calculadora>Hola mundo</div>
-      asdklfalsjkdfj
-      <calculadora></calculadora>
+      <h3>Operaciones</h3>
+      <hr />
+      <ul>
+        <li ng-repeat="o in historial"> {{o}}</li>
+      </ul>
     </div>
   </body>
 </html>

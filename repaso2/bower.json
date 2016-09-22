@@ -1,0 +1,21 @@
+{
+  "name": "repaso2",
+  "homepage": "https://github.com/cortezcristian/curso-angular-js-2016-v5",
+  "authors": [
+    "Cristian Cortez <cortez.cristian@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  }
+}
