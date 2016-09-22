@@ -3,8 +3,27 @@
   <head>
     <title>Repaso Directivas y Servicios</title>
     <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/angular-route/angular-route.js"></script>
     <script>
-      angular.module("myApp", [])
+      angular.module("myApp", ['ngRoute'])
+        .config(function ($routeProvider) {
+          $routeProvider
+            .when('/', {
+              template: 'Contenido Inicial <keyboard></keyboard>',
+              controller: 'InicioCtrl'
+            })
+            .when('/contacto', {
+              templateUrl: './contacto.html',
+              controller: 'ContactoCtrl'
+            })
+            .otherwise({
+              redirectTo: '/'
+            });
+        })
+        .controller("InicioCtrl", function(){
+        })
+        .controller("ContactoCtrl", function(){
+        })
         .controller("MainCtrl", function($scope, DemoServ){
           $scope.valor = 0;
           $scope.calcIva = function(){
@@ -19,14 +38,26 @@
             }
           };
         })
+        .directive('keyboard', function($log){
+          return {
+            template: 'Teclado aqui<div>123</div>',
+            restrict: 'EA',
+            link: function(scope, el, attrs){
+              $log.log(attrs);
+            }
+          };
+
+        });
     </script>
   </head>
   <body>
-    <form ng-controller="MainCtrl">
-      <div>IVA: {{resultado}}</div>
-      <input type="number" placeholder="Monto" ng-model="valor" />
-      <button ng-click="calcIva()">Calcular IVA</button>
-    </form>
+    <ul>
+      <li><a href="#/">Inicio</a></li>
+      <li><a href="#/contacto">{{ 'Contacto' | uppercase }}</a></li>
+    </ul>
+    <div ng-view>
+      Contenido Variable
+    </div>
 
   </body>
 </html>
