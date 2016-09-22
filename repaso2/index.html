@@ -38,6 +38,12 @@
             }
           };
         })
+        .filter('sinvocales', function(){
+          return function(valor){
+            return valor.replace(/[aeiou]/g, '');
+          }
+
+        })
         .directive('keyboard', function($log){
           return {
             template: 'Teclado aqui<div>123</div>',
@@ -53,7 +59,7 @@
   <body>
     <ul>
       <li><a href="#/">Inicio</a></li>
-      <li><a href="#/contacto">{{ 'Contacto' | uppercase }}</a></li>
+      <li><a href="#/contacto">{{ 'Contacto' | sinvocales }}</a></li>
     </ul>
     <div ng-view>
       Contenido Variable
