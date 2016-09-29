@@ -4,34 +4,22 @@
     <title>Repaso Directivas y Servicios</title>
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/angular-route/angular-route.js"></script>
+    <script src="./scripts/app.js"></script>
+    <script src="./scripts/controllers/inicio.js"></script>
     <script>
-      angular.module("myApp", ['ngRoute'])
-        .config(function ($routeProvider) {
-          $routeProvider
-            .when('/', {
-              template: 'Contenido Inicial <keyboard></keyboard>',
-              controller: 'InicioCtrl'
-            })
-            .when('/contacto', {
-              templateUrl: './contacto.html',
-              controller: 'ContactoCtrl'
-            })
-            .otherwise({
-              redirectTo: '/'
-            });
-        })
-        .controller("InicioCtrl", function(){
-        })
+				angular.module('myApp')
         .controller("ContactoCtrl", function(){
         })
-        .controller("MainCtrl", function($scope, DemoServ){
+        .controller("MainCtrl", function($rootScope, $scope, DemoServ){
+					$rootScope.valor_global = 2;
           $scope.valor = 0;
           $scope.calcIva = function(){
             $scope.resultado = DemoServ.calcularIva($scope.valor);
           };
 
         })
-        .factory("DemoServ", function(){
+        .factory("DemoServ", function($rootScope){
+					$rootScope.valor_global = 3;
           return {
             calcularIva: function(monto){
               return monto*0.21;
