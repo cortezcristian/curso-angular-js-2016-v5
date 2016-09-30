@@ -1,3 +1,4 @@
 angular.module('myApp')
-.controller("InicioCtrl", function(){
+.controller("InicioCtrl", function(simpleServ, $rootScope){
+  $rootScope.demoVal = simpleServ.alCuadrado(3);
 })

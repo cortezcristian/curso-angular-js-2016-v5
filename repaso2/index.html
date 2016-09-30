@@ -5,12 +5,14 @@
     <script src="./bower_components/angular/angular.js"></script>
     <script src="./bower_components/angular-route/angular-route.js"></script>
     <script src="./scripts/app.js"></script>
+    <script src="./scripts/services/simple.js"></script>
     <script src="./scripts/controllers/inicio.js"></script>
     <script>
 				angular.module('myApp')
         .controller("ContactoCtrl", function(){
         })
-        .controller("MainCtrl", function($rootScope, $scope, DemoServ){
+        .controller("MainCtrl", function($rootScope, $scope, DemoServ, simpleServ){
+
 					$rootScope.valor_global = 2;
           $scope.valor = 0;
           $scope.calcIva = function(){

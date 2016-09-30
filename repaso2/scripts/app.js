@@ -2,7 +2,7 @@ angular.module("myApp", ['ngRoute'])
 	.config(function ($routeProvider) {
 		$routeProvider
 			.when('/', {
-				template: 'Contenido Inicial <keyboard></keyboard>',
+				templateUrl: './inicio.html',
 				controller: 'InicioCtrl'
 			})
 			.when('/contacto', {
